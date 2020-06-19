@@ -7,6 +7,7 @@
 import {RequestState} from './battle';
 import {Pokemon, EffectState} from './pokemon';
 import {State} from './state';
+import { consoleips } from '../config/config-example';
 
 /** A single action that can be chosen. */
 export interface ChosenAction {
@@ -180,6 +181,7 @@ export class Side {
 	randomActive() {
 		const actives = this.active.filter(active => active && !active.fainted);
 		if (!actives.length) return null;
+		console.log(`Sampling random side active`)
 		return this.battle.sample(actives);
 	}
 
