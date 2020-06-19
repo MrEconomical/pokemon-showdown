@@ -51,8 +51,10 @@ export class PRNG {
 	 * m and n are converted to integers via Math.floor. If the result is NaN, they are ignored.
 	 */
 	next(from?: number, to?: number): number {
+        console.log(`Called next: ${from || 0} - ${to || 1}`)
 		this.seed = this.nextFrame(this.seed); // Advance the RNG
 		let result = (this.seed[0] << 16 >>> 0) + this.seed[1]; // Use the upper 32 bits
+        console.log(`Upper 32 bits: ${result}`)
 		if (from) from = Math.floor(from);
 		if (to) to = Math.floor(to);
 		if (from === undefined) {
@@ -76,6 +78,7 @@ export class PRNG {
 	 * The denominator must be a positive integer (`> 0`).
 	 */
 	randomChance(numerator: number, denominator: number): boolean {
+        console.log(`Called randomChance: ${numerator}/${denominator}`)
 		return this.next(denominator) < numerator;
 	}
 
@@ -199,16 +202,19 @@ export class PRNG {
 
 			seed = nextSeed;
 		}
+        console.log(`PRNG frame advanced: [${seed.join(" ")}]`)
 		return seed;
 	}
 
 	static generateSeed() {
-		return [
+        const seed = [
 			Math.floor(Math.random() * 0x10000),
 			Math.floor(Math.random() * 0x10000),
 			Math.floor(Math.random() * 0x10000),
 			Math.floor(Math.random() * 0x10000),
-		] as PRNGSeed;
+		]
+        console.log(`PRNG seed generated as: [${seed.join(" ")}]`)
+		return seed as PRNGSeed;
 	}
 }
 
