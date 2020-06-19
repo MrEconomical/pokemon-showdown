@@ -57,7 +57,6 @@ export class PRNG {
 		this.seed = this.nextFrame(this.seed); // Advance the RNG
 		let result = (this.seed[0] << 16 >>> 0) + this.seed[1]; // Use the upper 32 bits
 		console.log(`Upper 32 bits: ${result}`)
-		console.log()
 		if (from) from = Math.floor(from);
 		if (to) to = Math.floor(to);
 		if (from === undefined) {
@@ -67,6 +66,8 @@ export class PRNG {
 		} else {
 			result = Math.floor(result * (to - from) / 0x100000000) + from;
 		}
+		console.log(`[result] ${result}`)
+		console.log()
 		return result;
 	}
 

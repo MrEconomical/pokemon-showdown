@@ -6,6 +6,7 @@
  */
 
 import {State} from './state';
+import { consoleips } from '../config/config-example';
 
 /** A Pokemon's move slot. */
 interface MoveSlot {
@@ -279,8 +280,9 @@ export class Pokemon {
 		set.level = this.battle.clampIntRange(set.forcedLevel || set.level || 100, 1, 9999);
 		this.level = set.level;
 		const genders: {[key: string]: GenderName} = {M: 'M', F: 'F', N: 'N'};
-		if (!genders[set.gender] && !this.species.gender) console.log(`Setting gender of ${this.species}`)
+		if (!genders[set.gender] && !this.species.gender) console.log(`[event] Setting gender of ${this.species}`)
 		this.gender = genders[set.gender] || this.species.gender || (this.battle.random() * 2 < 1 ? 'M' : 'F');
+		console.log(`[result] ${this.gender}`)
 		if (this.gender === 'N') this.gender = '';
 		this.happiness = typeof set.happiness === 'number' ? this.battle.clampIntRange(set.happiness, 0, 255) : 255;
 		this.pokeball = this.set.pokeball || 'pokeball';
