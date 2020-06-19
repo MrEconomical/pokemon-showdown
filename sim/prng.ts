@@ -7,6 +7,8 @@
  * @license MIT license
  */
 
+import { consoleips } from "../config/config-example";
+
 /** 64-bit [high -> low] */
 export type PRNGSeed = [number, number, number, number];
 
@@ -51,10 +53,11 @@ export class PRNG {
 	 * m and n are converted to integers via Math.floor. If the result is NaN, they are ignored.
 	 */
 	next(from?: number, to?: number): number {
-        console.log(`Called next: ${from || 0} - ${to || 1}`)
+        console.log(`Called next: ${from || 0}-${to || 1}`)
 		this.seed = this.nextFrame(this.seed); // Advance the RNG
 		let result = (this.seed[0] << 16 >>> 0) + this.seed[1]; // Use the upper 32 bits
-        console.log(`Upper 32 bits: ${result}`)
+		console.log(`Upper 32 bits: ${result}`)
+		console.log()
 		if (from) from = Math.floor(from);
 		if (to) to = Math.floor(to);
 		if (from === undefined) {
@@ -99,6 +102,7 @@ export class PRNG {
 		if (items.length === 0) {
 			throw new RangeError(`Cannot sample an empty array`);
 		}
+		console.log(`Sampling items [${items.join(", ")}]`)
 		const index = this.next(items.length);
 		const item = items[index];
 		if (item === undefined && !Object.prototype.hasOwnProperty.call(items, index)) {
@@ -115,6 +119,7 @@ export class PRNG {
 	 */
 	shuffle<T>(items: T[], start = 0, end: number = items.length) {
 		while (start < end - 1) {
+			console.log(`Shuffling items [${items.join(", ")}] ${start}-${end}`)
 			const nextIndex = this.next(start, end);
 			if (start !== nextIndex) {
 				[items[start], items[nextIndex]] = [items[nextIndex], items[start]];

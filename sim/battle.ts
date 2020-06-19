@@ -14,6 +14,7 @@ import {Side} from './side';
 import {State} from './state';
 import {BattleQueue, Action} from './battle-queue';
 import {Utils} from '../lib/utils';
+import { consoleips } from '../config/config-example';
 
 /** A Pokemon that has fainted. */
 interface FaintedPokemon {
@@ -272,6 +273,7 @@ export class Battle {
 	}
 
 	random(m?: number, n?: number) {
+		console.log(`Called battle random`)
 		return this.prng.next(m, n);
 	}
 
@@ -280,6 +282,7 @@ export class Battle {
 	}
 
 	sample<T>(items: readonly T[]): T {
+		console.log(`Called battle sample`)
 		return this.prng.sample(items);
 	}
 
@@ -1353,6 +1356,7 @@ export class Battle {
 	}
 
 	getRandomSwitchable(side: Side) {
+		console.log(`Getting random switchable`)
 		const canSwitchIn = this.possibleSwitches(side);
 		return canSwitchIn.length ? this.sample(canSwitchIn) : null;
 	}
@@ -2227,6 +2231,7 @@ export class Battle {
 	}
 
 	randomizer(baseDamage: number) {
+		console.log(`Randomizing base damage: ${baseDamage}`)
 		const tr = this.trunc;
 		return tr(tr(baseDamage * (100 - this.random(16))) / 100);
 	}
